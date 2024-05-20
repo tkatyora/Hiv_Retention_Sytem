@@ -1,0 +1,101 @@
+{% include 'style_file.html' %}
+ {%block content%} 
+ {%load static%}
+ {% load crispy_forms_tags %}
+<head>
+
+{% block title%}
+    <title>HRS|Analysis
+    </title>
+{%endblock title%}
+</head>
+<style>
+  table {
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  
+  th, td {
+    padding: 10px; 
+    text-align: left; 
+    border: 1px solid #ddd; 
+  }
+  
+  th {
+    background-color: #f2f2f2; 
+    font-weight: bold;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9; 
+  }
+</style>
+<body class="">
+  <header class="navbar  navbar-fixed bg-dark flex-md-nowrap p-3 shadow" data-bs-theme="">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">HIV Retention System(HRS)</a>
+    <h5 class=" text-white" >Machine Learning Used Evaluation</h5>
+   
+   
+  
+    
+  </header>
+
+  <main class="mt-5 mx-5 fs-5" >
+    <div class="text-center">
+      <h5>Below is the Evaluation Metric Of the Machine Learning Model Used</h2>
+    </div>
+  
+    <div class="form-floating mb-3 text-center">
+      <div class="d-flex">
+        <p>Accuracy: <strong>{{ accuracy }}</strong></p>
+        <p class="ms-5" >AUC-ROC: <strong>{{ auc_roc_score }}</strong></p>
+      </div>
+    
+      <p>Classification Report<br> </p>  
+     
+      
+      <table>
+          <thead>
+              <tr>
+                  <th>Class</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>F1-Score</th>
+                  <th>Support</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>0</td>
+                  <td>{{ precision }}</td>
+                  <td>{{ recall }}</td>
+                  <td>{{ f1 }}</td>
+                  <td>{{ support }}</td>
+              </tr>
+              <tr>
+                  <td>1</td>
+                  <td>{{ precision1 }}</td>
+                  <td>{{ recall1 }}</td>
+                  <td>{{ f11 }}</td>
+                  <td>{{ support1 }}</td>
+              </tr>
+          </tbody>
+      </table>
+       <br>
+        
+      <button class="w-25  mb-5 btn btn-sm bg-success">
+        <a class="nav-link p-0 fs-6 text-white " href="{% url 'dashboard'%}">
+          Back </a>
+      </button> 
+    </div>
+ 
+
+  </main>
+
+
+
+
+
+
+</body>
+{%endblock content%}

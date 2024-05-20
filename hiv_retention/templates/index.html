@@ -1,0 +1,119 @@
+{% include 'style_file.html'%}
+{%load static %}
+{% load crispy_forms_tags %}
+    <style>
+      body {
+  height: 100%;
+  background-color: cornflowerblue;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body class="d-flex align-items-center  ">  
+
+   <main class="form-signin shadow bg-body-secondary bg-white  m-auto"
+   style="width: 50%;">
+  <form class=""  method = 'POST'
+ >
+    {% csrf_token %}
+    <img class="mb-4" src="../static/pics/sign.jpg" alt="" width="77" height="77">
+   
+    <h4 class=" mb-3 fw-normal">W<span class="  text-body-emphasis text-body-secondary" id="typedText"></span></h4>
+    <h4 class=" mb-3 fw-normal text-primary">Please sign in</h4>
+    {% for message in messages %}
+         
+    <div class="  mx-sm-3 ">
+      {% if message.tags == 'warning'%}
+      <p class="text-danger text-center">{{message}}</p>
+      {%else%}
+      <p class="text-success text-center">{{message}}</p>
+    </div>
+    {%endif%} 
+  {%endfor%}
+
+    <div class="form-floating">
+      <input type="text" class="form-control" name="username" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">HRS-Username</label>
+    </div>
+    <br>
+    <div class="form-floating">
+      <input type="password"  name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">HRS-Password</label>
+    </div>
+
+    <div class="form-check text-start my-1">
+     
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+    <p class="mt-2 mb-1 text-body-secondary">&copy;2024 <span>Helping in Reducing Hiv Viral load</span></p>
+  
+  </form>
+</main>
+<script>            
+  const textToType = "elcome To HIV Retention System(HRS)";
+  let index = 0;
+  let isDeleting = false;
+  const speed = 100;
+
+  function typeText() {
+      let currentText = textToType.substring(0, index);
+
+      if (isDeleting) {
+          currentText = textToType.substring(0, index);
+          index--;
+
+          if (index < 0) {
+              index = 0;
+              isDeleting = false;
+          }
+      } else {
+          currentText = textToType.substring(0, index);
+          index++;
+
+          if (index > textToType.length) {
+              index = textToType.length;
+              isDeleting = true;
+          }
+      }
+
+      document.getElementById("typedText").innerHTML = currentText;
+
+      const delta = isDeleting ? speed / 2 : speed;
+
+      setTimeout(typeText, delta);
+  }
+
+  typeText();
+
+  
+</script>
+    </body>
+

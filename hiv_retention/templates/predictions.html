@@ -1,0 +1,144 @@
+{% include 'style_file.html' %}
+ {%block content%} 
+ {%load static%}
+ {% load crispy_forms_tags %}
+<head>
+
+{% block title%}
+    <title>HRS|Analysis
+    </title>
+{%endblock title%}
+</head>
+
+<body class="">
+  <header class="navbar  navbar-fixed bg-dark flex-md-nowrap p-3 shadow" data-bs-theme="">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">HIV Retention System(HRS)</a>
+    <h5 class="text-center  text-white" >A<span class="text-white" id="typedText"></span></h5>
+    <div class="text-end">
+      <button type="submit" id="print-btn" class="btn text-end btn-info  button ">
+        <a class="nav-link p-0 text-muted" 
+        href="" data-bs-toggle="modal" 
+        data-bs-target="#comment">
+         Add Comment
+         </a>
+       
+       </button>
+      <button type="submit" id="print-btn" class="btn ms-5 btn-info  button ">
+        <a class="text-decoration-none text-muted"
+           onclick="window.print()"
+           id="print">Save Analysis</a>
+      
+       </button>
+    </div>
+    
+  </header>
+
+  <main class="mt-5 mx-5 fs-5" >
+
+    <div class="d-flex">
+      <div class="w-25 ms-0">
+        <form id='form-id'  method = 'POST'  class="bg-info" >
+          {% csrf_token %}                                 
+          <div class="form mb-3 mx-sm-3">
+            <p class="fs-6">{{form.variables|as_crispy_field}}</p> 
+         </div>
+         <div class="mb-4 mx-sm-3 form">
+          <p>{{form.type|as_crispy_field}}</p> 
+         </div> 
+         <div class="mb-4 mx-sm-3 form">
+          <p>{{form.analysis|as_crispy_field}}</p> 
+         </div> 
+         <br>  
+         <div class="text-center">
+          <button class="w-25  mb-5 btn btn-sm bg-dark">
+            <a class="nav-link p-0 fs-6 text-white " href="{% url 'dashboard'%}">
+            Cancel  </a>
+          </button> 
+          <button type="submit" class="w-25 mb-5 ms-4 text-black btn btn-sm bg-success">
+           Analysis
+          </button> 
+         </div>                             
+   </form>
+      </div>
+      <div class="w-75 ms-5">
+        {% if table%}
+        {{tables|safe}}
+        {%else%}
+        <img class="mb-4 img img-fluid" src="{%static '../static/pics/predict_new.png'%}" alt="" >
+        {%endif%}
+      </div>
+    </div>
+ 
+
+  </main>
+
+
+
+
+<!-- comments  section -->
+<div class="modal modal-sheet  p-4 py-md-5" tabindex="-1" role="dialog" id="comment">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h4 class="fw-bold mb-0  ">Add Your Comment</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form class="" action="{% url 'Comments' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-floating mb-3">
+            <strong>{{commentform.name|as_crispy_field}}</strong> 
+            <strong>{{commentform.comment|as_crispy_field}}</strong> 
+            <strong>{{commentform.File|as_crispy_field}}</strong> 
+          </div>
+    
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Add</button>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>            
+  const textToType = "nalysis and Visualization of Predicted Data";
+  let index = 0;
+  let isDeleting = false;
+  const speed = 100;
+
+  function typeText() {
+      let currentText = textToType.substring(0, index);
+
+      if (isDeleting) {
+          currentText = textToType.substring(0, index);
+          index--;
+
+          if (index < 0) {
+              index = 0;
+              isDeleting = false;
+          }
+      } else {
+          currentText = textToType.substring(0, index);
+          index++;
+
+          if (index > textToType.length) {
+              index = textToType.length;
+              isDeleting = true;
+          }
+      }
+
+      document.getElementById("typedText").innerHTML = currentText;
+
+      const delta = isDeleting ? speed / 2 : speed;
+
+      setTimeout(typeText, delta);
+  }
+
+  typeText();
+
+  
+</script>
+
+</body>
+{%endblock content%}

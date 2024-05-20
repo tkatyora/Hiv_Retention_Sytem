@@ -1,0 +1,97 @@
+{% include 'style_file.html' %}
+ {%block content%} 
+ {%load static%}
+ {% load crispy_forms_tags %}
+<head>
+
+{% block title%}
+    <title>HRS|Comments
+    </title>
+{%endblock title%}
+</head>
+
+<body class="">
+  
+    <style>
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar  navbar-fixed bg-dark flex-md-nowrap p-1 shadow" data-bs-theme="">
+      <h5 class=" text-white" >Proffesinals Comments</h5>
+    
+        <button class=" btn btn-sm bg-dark">
+          <a class="nav-link p-0 fs-6 text-white " href="{% url 'dashboard'%}">
+          Back to main Dashboard  </a>
+        </button> 
+        
+     
+     
+        
+      
+    </header>
+  
+ 
+  <div class="mx-sm-5 mt-5">
+    <h2>Comments</h2>
+    {% for message in messages %}
+         
+    <div class="  mx-sm-3 ">
+      {% if message.tags == 'warning'%}
+      <p class="text-danger text-center">{{message}}</p>
+      {%else%}
+      <p class="text-success text-center">{{message}}</p>
+    </div>
+    {%endif%} 
+  {%endfor%}
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Comment</th>
+          <th>Written By</th>
+          <th>File(click to download)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in comments %}
+        <tr>
+          <td>{{data.name}}</td>
+          <td>{{data.comment}}</td>
+          <td>{{data.done_by}}</td>
+          <td><a class="nav-link .navs-link fs-6 text-info" href="{{data.FileUrl}}">download</a></td>
+        </tr>
+      
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+ 
+  
+  </body>
+
+  
+ 
+
+  
+
+
+{%endblock content%}
